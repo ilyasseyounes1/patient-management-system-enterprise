@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="acc39065-4ba2-44a0-a085-467236252504" name="patient-service-db Mapping">
+      <data-sources db="d1507151-2ee4-47d8-84fc-e87399ddea3a" />
+      <scope>
+        <node kind="database" qname="db" />
+      </scope>
+    </mapping>
+  </component>
+</project>
