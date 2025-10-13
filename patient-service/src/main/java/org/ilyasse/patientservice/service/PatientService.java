@@ -4,6 +4,7 @@ import org.ilyasse.patientservice.dto.PatientRequestDTO;
 import org.ilyasse.patientservice.dto.PatientResponseDTO;
 import org.ilyasse.patientservice.exception.EmailAlreadyExistsException;
 import org.ilyasse.patientservice.exception.PatientNotFoundException;
+import org.ilyasse.patientservice.grpc.BillingServiceGrpcClient;
 import org.ilyasse.patientservice.mapper.PatientMapper;
 import org.ilyasse.patientservice.model.Patient;
 import org.ilyasse.patientservice.repository.PatientRepository;
@@ -15,11 +16,14 @@ import java.util.UUID;
 
 @Service
 public class PatientService{
-    private PatientRepository patientRepository;
+    private final PatientRepository patientRepository;
+    private final BillingServiceGrpcClient billingServiceGrpcClient;
 
-    public PatientService(PatientRepository patientRepository) {
+    public PatientService( PatientRepository patientRepository , BillingServiceGrpcClient billingServiceGrpcClient ) {
         this.patientRepository = patientRepository;
+        this.billingServiceGrpcClient = billingServiceGrpcClient;
     }
+
 
     // method to get all patient *************************************************************
     public List<PatientResponseDTO> getPatients() {
@@ -35,8 +39,11 @@ public class PatientService{
         if (patientRepository.existsByEmail ( patientRequestDTO.getEmail () )){
             throw new EmailAlreadyExistsException ("A patient with this email");
         }
-        Patient newPatient = patientRepository.save(
-                PatientMapper.toModel (patientRequestDTO));
+        Patient newPatient = patientRepository.save( PatientMapper.toModel (patientRequestDTO));
+
+        billingServiceGrpcClient.createBillingAccount (newPatient.getId ().toString () ,
+                newPatient.getName () , newPatient.getEmail ());
+
         return PatientMapper.toDTO (newPatient);
     }
     // method for update a patient*******************************************************************

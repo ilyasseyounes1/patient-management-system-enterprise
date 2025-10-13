@@ -3,9 +3,9 @@ POST http://localhost:4000/patients
 Content-Type: application/json
 
 {
-  "name": "ilyasse test",
-  "email": "ilyasedsamil@gmail.com",
-  "address": "123 Main Street, City, Country",
+  "name": "iilyfasse bilfflingAcc33ount6",
+  "email": "ilydj3iddnd88@gmail.com",
+  "address": "123 Maiin Street, City, Country",
   "dateOfBirth": "1990-05-15",
   "registeredDate": "2025-10-07"
 }

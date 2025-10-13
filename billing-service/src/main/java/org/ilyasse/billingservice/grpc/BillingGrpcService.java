@@ -10,20 +10,24 @@ import org.slf4j.LoggerFactory;
 
 @GrpcService
 public class BillingGrpcService extends BillingServiceGrpc.BillingServiceImplBase{
-    private static final Logger log = LoggerFactory.getLogger ( BillingGrpcService.class );
+
+    private static final Logger log = LoggerFactory.getLogger(
+            BillingGrpcService.class);
 
     @Override
-    public void createBillingAccount ( BillingRequest billingRequest, StreamObserver<BillingResponse> responseObserverr){
-        log.info ( "createBillingAccount request received {}" , billingRequest.toString () );
-        // Business login - e.g save to database , perform calculate etc ...
+    public void createBillingAccount(BillingRequest billingRequest,
+                                     StreamObserver<BillingResponse> responseObserver) {
 
-        BillingResponse response = BillingResponse.newBuilder ()
-                .setAccountId ( "21345687" )
-                .setStatus ( "Active" )
-                .build ();
-        responseObserverr.onNext ( response );
-        responseObserverr.onCompleted ();
+        log.info("createBillingAccount request received {}", billingRequest.toString());
+
+        // Business logic - e.g save to database, perform calculates etc
+
+        BillingResponse response = BillingResponse.newBuilder()
+                .setAccountId("12345")
+                .setStatus("ACTIVE")
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
-
-
 }
