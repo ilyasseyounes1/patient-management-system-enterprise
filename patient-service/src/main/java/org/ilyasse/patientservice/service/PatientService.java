@@ -5,6 +5,7 @@ import org.ilyasse.patientservice.dto.PatientResponseDTO;
 import org.ilyasse.patientservice.exception.EmailAlreadyExistsException;
 import org.ilyasse.patientservice.exception.PatientNotFoundException;
 import org.ilyasse.patientservice.grpc.BillingServiceGrpcClient;
+import org.ilyasse.patientservice.kafka.KafkaProducer;
 import org.ilyasse.patientservice.mapper.PatientMapper;
 import org.ilyasse.patientservice.model.Patient;
 import org.ilyasse.patientservice.repository.PatientRepository;
@@ -18,10 +19,14 @@ import java.util.UUID;
 public class PatientService{
     private final PatientRepository patientRepository;
     private final BillingServiceGrpcClient billingServiceGrpcClient;
-
-    public PatientService( PatientRepository patientRepository , BillingServiceGrpcClient billingServiceGrpcClient ) {
+    private final KafkaProducer kafkaProducer;
+    public PatientService( PatientRepository patientRepository ,
+                           BillingServiceGrpcClient billingServiceGrpcClient,
+                           KafkaProducer kafkaProducer
+                           ) {
         this.patientRepository = patientRepository;
         this.billingServiceGrpcClient = billingServiceGrpcClient;
+        this.kafkaProducer = kafkaProducer;
     }
 
 
@@ -43,6 +48,9 @@ public class PatientService{
 
         billingServiceGrpcClient.createBillingAccount (newPatient.getId ().toString () ,
                 newPatient.getName () , newPatient.getEmail ());
+
+        kafkaProducer.sendEvent(newPatient);
+
 
         return PatientMapper.toDTO (newPatient);
     }

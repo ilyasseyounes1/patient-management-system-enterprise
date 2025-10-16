@@ -101,10 +101,6 @@
             <artifactId>spring-kafka</artifactId>
             <version>3.3.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-streams</artifactId>
-        </dependency>
 
     </dependencies>
 
