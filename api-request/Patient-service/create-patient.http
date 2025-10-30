@@ -3,8 +3,8 @@ POST http://localhost:4000/patients
 Content-Type: application/json
 
 {
-  "name": "iilyfasse bilfflingAcc33ount6",
-  "email": "ilydj3iddnd88@gmail.com",
+  "name": "ilyasse analytics-service3",
+  "email": "ilyasse1Test15@mail.com",
   "address": "123 Maiin Street, City, Country",
   "dateOfBirth": "1990-05-15",
   "registeredDate": "2025-10-07"
